@@ -7,6 +7,9 @@ Active Ingredients
 
 ActiveModel (:heart:) Value Objects (:heart:) POROs
 
+Because why should your [YOUR MODEL] care about validating things that aren't [YOUR MODEL] (URLs / Emails / Phone Numbers)?
+
+
 
 &nbsp;
 - - - - -
@@ -35,10 +38,10 @@ Now you can do this:
 
     user = User.new
     
-    user.home_phone = '+49 3456 3456'
-    user.home_phone  # => '+49 3456 3456'
-    user.home_phone! # => <Phone country_code: '+49' number: '3456 3456'>
-    user.valid?      # => Defers validation to the value object
+    user.website = 'dablweb.com'
+    user.website  # => 'http://www.dablweb.com' (normalized value)
+    user.website! # => <Url protocol: 'http://' domain: 'dablweb.com' ...>
+    user.valid?   # => Defers validation to the value object (user.website!.valid?)
     
     user.home_address = '1 Queen St, Auckland, New Zealand'
     user.home_address!.city # => Auckland
@@ -147,6 +150,7 @@ Where `home_phone` is the database column name, and `PhoneNumber` is the class o
 
 * __validate__  true/false _(defaults to true if value object has a #valid? method)_
 * __allow_nil__ true _(defaults to false)_ - Whether to skip validation for nil
+* __error__     String _(defaults to "<column_name> is invalid")_ - Custom error message
 * __unique__    true _(defaults to false)_ - Whether to add a unique validation for this value (TODO: Add :scope support)
 
 
