@@ -14,38 +14,40 @@ Because why should your [YOUR MODEL] care about validating things that aren't [Y
 &nbsp;
 - - - - -
 
-
 ### This is your Rails Model... on Active Ingredients!
 
-    class User < ActiveRecord::Base
-      active_ingredients do
-      	email        EmailAddress, validate: true, unique: true, allow_nil: false
-      	username     ShortName
-      	nickname     ShortName
-        mobile_phone PhoneNumber, allow_nil: false, unique: true
-      	home_phone   PhoneNumber
-      	home_address Address, allow_nil: false
-      	work_address Address
-      	website      Url
-      	linked_in    Url
-      end
-      
-      ...
-    end
+```Ruby
+class User < ActiveRecord::Base
+  active_ingredients do
+  	email        EmailAddress, validate: true, unique: true, allow_nil: false
+  	username     ShortName
+  	nickname     ShortName
+    mobile_phone PhoneNumber, allow_nil: false, unique: true
+  	home_phone   PhoneNumber
+  	home_address Address, allow_nil: false
+  	work_address Address
+  	website      Url
+  	linked_in    Url
+  end
+
+  ...
+end
+```
 
 
 Now you can do this:
 
-    user = User.new
-    
-    user.website = 'dablweb.com'
-    user.website  # => 'http://www.dablweb.com' (normalized value)
-    user.website! # => <Url protocol: 'http://' domain: 'dablweb.com' ...>
-    user.valid?   # => Defers validation to the value object (user.website!.valid?)
-    
-    user.home_address = '1 Queen St, Auckland, New Zealand'
-    user.home_address!.city # => Auckland
+```Ruby
+user = User.new
 
+user.website = 'dablweb.com'
+user.website  # => 'http://www.dablweb.com' (normalized value)
+user.website! # => <Url protocol: 'http://' domain: 'dablweb.com' ...>
+user.valid?   # => Defers validation to the value object (user.website!.valid?)
+
+user.home_address = '1 Queen St, Auckland, New Zealand'
+user.home_address!.city # => Auckland
+```
 
 &nbsp;
 - - - - -
@@ -72,45 +74,49 @@ Treat `ActiveIngredients::Ingredient` as you would a `Struct` (It actually inher
 
 Build an ingredient (Value Object) like so `app/values/phone_number.rb`:
 
-	
-	PhoneNumber = ActiveIngredients::Ingredient.new(:country_code, :number) do
-	  FORMAT = %r{^(\+\d{1,2})? ?([\d ]*)$}
-	  
-	  def value
-	  	"#{ country_code } #{ number }"
-	  end
-	  
-	  def valid?
-	  	country_code_valid? and number_valid?
-	  end
-	  
-	  def convert(value)
-	    value =~ FORMAT
-    	self.country_code = $1
-	    self.number       = $2
-	  end
+```Ruby
+PhoneNumber = ActiveIngredients::Ingredient.new(:country_code, :number) do
+  FORMAT = %r{^(\+\d{1,2})? ?([\d ]*)$}
 
-      protected
-      
-      def country_code_valid?
-      	country_code =~ %r{^\+\d{2}$}
-      end
-      
-      def number_valid?
-        number.length > 7
-      end
-	end
+  def value
+  	"#{ country_code } #{ number }"
+  end
+
+  def valid?
+  	country_code_valid? and number_valid?
+  end
+
+  def convert(value)
+    value =~ FORMAT
+  	self.country_code = $1
+    self.number       = $2
+  end
+
+    protected
+  
+    def country_code_valid?
+    	country_code =~ %r{^\+\d{2}$}
+    end
+  
+    def number_valid?
+      number.length > 7
+    end
+end
+```
 
 #### Initialize with the normalized value
 
-    home_phone = PhoneNumber.new '+49 345345 345345'
-    home_phone # => <PhoneNumber country_code: '+49' number: '345345 345345'>
-    
+```Ruby
+home_phone = PhoneNumber.new '+49 345345 345345'
+home_phone # => <PhoneNumber country_code: '+49' number: '345345 345345'>
+```
+
 #### Initialize with specific parts (like a Struct)
-    
-    work_phone = PhoneNumber.new country_code: '+49', number '345345 345345'>
-    work_phone # => <PhoneNumber country_code: '+49' number: '345345 345345'>
-    
+
+```Ruby
+work_phone = PhoneNumber.new country_code: '+49', number '345345 345345'>
+work_phone # => <PhoneNumber country_code: '+49' number: '345345 345345'>
+```
 
 Your ingredient can implement the following methods:
 
@@ -136,13 +142,14 @@ If your Ingredient (Struct) has more than 1 attribute you probably need to imple
 ## Mix it in
 ### ActiveRecord
    
-    class User < ActiveRecord::Base
-      active_ingredients do
-      	home_phone   PhoneNumber
-      	mobile_phone PhoneNumber, unique: true
-      end 
-    end
-
+```Ruby
+class User < ActiveRecord::Base
+  active_ingredients do
+  	home_phone   PhoneNumber
+  	mobile_phone PhoneNumber, unique: true
+  end 
+end
+```
 
 Where `home_phone` is the database column name, and `PhoneNumber` is the class of the Ingredient (Value Object).
 
@@ -158,17 +165,18 @@ Where `home_phone` is the database column name, and `PhoneNumber` is the class o
 
 Just ensure you extend the ActiveIngredients module like so:
 
-    class User
-      extend  ActiveIngredients
-      include ActiveModel::Validations # optional
+```Ruby
+class User
+  extend  ActiveIngredients
+  include ActiveModel::Validations # optional
 
-      active_ingredients do
-        mobile_phone Phone
-      end
-    end
-    
- 
-    
+  active_ingredients do
+    mobile_phone Phone
+  end
+end
+```
+
+
 &nbsp;
 - - - - -
 
@@ -190,9 +198,11 @@ If you'd like to become a contributor, the easiest way it to fork this repo, mak
 
 To run specs, run:
 
-    bundle install
-    bundle exec rake
-    
+```bash
+bundle install
+bundle exec rake
+```
+
 If your changes seem reasonable and the specs pass I'll give you commit rights to this repo and add you to the list of people who can push the gem.
 
 
