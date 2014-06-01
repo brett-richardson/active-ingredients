@@ -1,4 +1,8 @@
 ActiveIngredients::ValueMap = Struct.new(:name, :klass, :options) do
+  def initialize(*args)
+    super *args
+    self.options ||= Hash.new
+  end
 
   #= Names ===
 
@@ -18,8 +22,17 @@ ActiveIngredients::ValueMap = Struct.new(:name, :klass, :options) do
 
   #= Queries ===
 
+  def mapping ; options[:mapping] ; end
+
+  def source_field_for(target = nil)
+    if target and mapping
+      mapping.key(target) || target
+    else
+      name
+    end
+  end
+
   def error_description
     options[:error] || "#{ name } is invalid."
   end
-
 end

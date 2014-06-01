@@ -1,4 +1,4 @@
-Phone = ActiveIngredients::Ingredient.new(:country_code, :number) do
+Phone = ActiveIngredients::Ingredient.new( 'Phone', :country_code, :number) do
 
   FORMAT = %r{^(\+\d{1,2})? ?([\d ]*)$}
 
@@ -8,18 +8,20 @@ Phone = ActiveIngredients::Ingredient.new(:country_code, :number) do
 
 
   def convert(value)
-    value =~ FORMAT
-    self.country_code = $1
-    self.number       = $2
+    value.to_s =~ FORMAT
+    self.country_code, self.number = $1, $2
   end
 
+
+  def errors
+    { value: 'Phone' }
+  end
 
   #=============================================================================
     protected
   #=============================================================================
 
-
-  def country_code_valid? ; country_code =~ %r{^\+\d{2}$} ; end
+  def country_code_valid? ; country_code =~ %r{^\+\d{1,2}$} ; end
   def number_valid?       ; number.length > 7             ; end
 
 end
