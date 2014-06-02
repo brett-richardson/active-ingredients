@@ -1,5 +1,4 @@
 class ActiveIngredients::Specification
-
   def initialize(&block)
     @items = []
     instance_eval &block
@@ -12,5 +11,4 @@ class ActiveIngredients::Specification
   def each(*args, &block)
     @items.each *args, &block
   end
-
 end

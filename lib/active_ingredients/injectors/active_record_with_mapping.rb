@@ -1,15 +1,9 @@
 module ActiveIngredients
   module Injectors
-    module ActiveRecordWithMapping
-      extend ActiveIngredients::Injectors::ActiveRecord
-
+    class ActiveRecordWithMapping < ActiveRecord
       CACHE_METHOD = 'active_ingredient_cache'
 
-      #-------------------------------------------------------------------------
-        module_function
-      #-------------------------------------------------------------------------
-
-      def call(klass, value_map)
+      def call
         add_cache_getter  klass, value_map
         add_object_getter klass, value_map
         add_object_setter klass, value_map
@@ -20,7 +14,7 @@ module ActiveIngredients
       end
 
       #-------------------------------------------------------------------------
-      # (protected)
+        protected
       #-------------------------------------------------------------------------
 
       def add_cache_getter(klass, value_map)

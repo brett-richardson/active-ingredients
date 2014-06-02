@@ -1,11 +1,7 @@
 module ActiveIngredients
   module Injectors
-    module ActiveRecord
-      #-------------------------------------------------------------------------
-        module_function
-      #-------------------------------------------------------------------------
-
-      def call(klass, value_map)
+    class ActiveRecord < Base
+      def call
         add_object_getter klass, value_map
         add_value_getter  klass, value_map
         add_setter        klass, value_map
@@ -14,7 +10,7 @@ module ActiveIngredients
       end
 
       #-------------------------------------------------------------------------
-      # (protected)
+        protected
       #-------------------------------------------------------------------------
 
       def add_validation(klass, value_map)
@@ -25,7 +21,7 @@ module ActiveIngredients
           return if value_object.valid?
 
           value_object.errors.each_pair do |field, messages|
-            Array( messages ).each{ |m|
+            Array(messages).each{ |m|
               errors[ value_map.source_field_for field ] << m
             }
           end
