@@ -1,8 +1,6 @@
 require 'spec_helper'
-require 'fixtures/phone'
 
-
-describe Phone do
+describe PhoneNumber do
   let(:country_code){ '+64' }
   let(:number      ){ '21 321 7641' }
   let(:full_number ){ "#{ country_code } #{ number }" }
@@ -16,7 +14,6 @@ describe Phone do
         subject
       end
 
-      # it{ binding.pry }
       its(:country_code){ should eq '+64'         }
       its(:number      ){ should eq '21 321 7641' }
     end

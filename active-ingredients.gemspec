@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
 	s.homepage     = 'http://www.dablweb.com'
 	s.authors      = [ 'Brett Richardson' ]
 	s.email        = [ 'Brett.Richardson.NZ@gmail.com' ]
-	s.require_path =  'lib'
+	s.require_path = 'lib'
 	s.files        = Dir.glob( 'lib/**/*' ) + %w{ Gemfile Guardfile MIT-LICENSE README.md }
 
 	s.add_development_dependency 'rails', '~> 4.0' # For testing form helpers
@@ -21,7 +21,7 @@ Gem::Specification.new do |s|
 	s.add_development_dependency 'guard'
 	s.add_development_dependency 'guard-rspec'
 	s.add_development_dependency 'guard-bundler'
-	s.add_development_dependency 'rspec-nc'
+	s.add_development_dependency 'growl'
 	s.add_development_dependency 'fuubar'
 	s.add_development_dependency 'pry'
 	s.add_development_dependency 'pry-nav'

@@ -1,6 +1,4 @@
 require 'spec_helper'
-require 'fixtures/address'
-
 
 describe ActiveIngredients::Ingredient do
   describe 'with Address fixture' do

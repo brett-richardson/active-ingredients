@@ -1,8 +1,6 @@
 require 'spec_helper'
 require 'action_view'
 
-
-
 describe 'FormHelper interaction' do
   let :dummy_class do
     Dummy = Class.new do include ActionView::Helpers::FormHelper end

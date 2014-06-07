@@ -1,29 +1,25 @@
 require 'spec_helper'
-require 'fixtures/phone'
-
 
 describe ActiveIngredients do
-
-  let(:dummy_class) { Class.new { extend ActiveIngredients } }
-  let(:ar_dummy_class) { Class.new(ActiveRecord::Base) { extend ActiveIngredients } }
-
-
-  describe '.active_ingredients' do
-    specify{
-      dummy_class.class_eval do
-        active_ingredients do
-          mobile_phone Phone
-        end
-      end
-    }
-
-    specify{
-      ar_dummy_class.class_eval do
-        active_ingredients do
-          mobile_phone Phone
-        end
-      end
-    }
+  let(:dummy_class) do
+    Class.new { extend ActiveIngredients }
   end
 
+  let(:ar_dummy_class) do
+    Class.new(ActiveRecord::Base) { extend ActiveIngredients }
+  end
+
+  describe '.active_ingredients' do
+    specify do
+      dummy_class.class_eval do
+        active_ingredients { mobile_phone PhoneNumber }
+      end
+    end
+
+    specify do
+      ar_dummy_class.class_eval do
+        active_ingredients { mobile_phone PhoneNumber }
+      end
+    end
+  end
 end

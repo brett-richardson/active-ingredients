@@ -1,1 +1,1 @@
-Address = ActiveIngredients::Ingredient.new( 'Address', :address, :city, :country)
+Address = ActiveIngredients::Ingredient.new(:address, :city, :country)

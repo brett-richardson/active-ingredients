@@ -1,14 +1,15 @@
-class ActiveIngredients::Specification
-  def initialize(&block)
-    @items = []
-    instance_eval &block
-  end
+module ActiveIngredients
+  class Specification
+    attr_accessor :items
+    delegate :each, to: :items
 
-  def method_missing(method, *args)
-    @items << ActiveIngredients::ValueMap.new( method, *args )
-  end
+    def initialize(&block)
+      @items = []
+      instance_eval &block
+    end
 
-  def each(*args, &block)
-    @items.each *args, &block
+    def method_missing(method, *args)
+      items << ValueMap.new(method, *args)
+    end
   end
 end

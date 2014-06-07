@@ -1,6 +1,6 @@
 class Location < ActiveRecord::Base
   active_ingredients do
-    phone_number Phone
+    phone_number PhoneNumber
 
     address PhysicalAddress, mapping: {
       address1: :line1,

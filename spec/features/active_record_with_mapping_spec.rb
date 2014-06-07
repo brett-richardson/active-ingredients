@@ -1,7 +1,4 @@
 require 'spec_helper'
-require 'fixtures/physical_address'
-require 'fixtures/location'
-
 
 describe 'ActiveRecord With Mapping Feature' do
   subject(:instance){ Location.new }
@@ -32,7 +29,7 @@ describe 'ActiveRecord With Mapping Feature' do
       end
 
       specify{ instance.address!.line1.should eq '2 King Rd' }
-      specify{ instance.address!.city.should  eq 'London' }
+      specify{ instance.address!.city.should  eq 'London'    }
     end
   end
 end
